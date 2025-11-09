@@ -95,7 +95,7 @@ Voici un code que vous devez **analyser et expliquer**, en vous appuyant sur le 
 
    * Quand la fonction de nettoyage est-elle appelée ?
 
-   Elle est appellée lors du démontage du composant Counter.
+   Elle est appellée lors de chaque rendu et appelée seule lors du démontage du composant Counter.
 
    * Que se passe-t-il quand on clique sur "Changer le statut" ?
 
