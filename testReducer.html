@@ -1,25 +1,101 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>React – useReducer</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React – useReducer</title>
 
-  <!-- React, ReactDOM et Babel -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-600">
-  <div id="root" class="w-full max-w-xl"></div>
 
-  <script type="text/babel" src="reducer.jsx"></script>
-  <script type="text/babel">
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+<body class="bg-slate-900 justify-center min-h-screen flex flex-col items-center p-4 text-white">
+    <div id="root" class="w-full max-w-xl"></div>
+    <script type="text/babel">
+        function reducer(state, action) {
+            switch (action.type) {
+                case 'increment_xp':
+                    return {
+                        class: state.class,
+                        level: state.level,
+                        xp: state.xp + action.increment
+                    }
+                case 'level_up':
+                    return {
+                        class: state.class,
+                        level: state.level + 1,
+                        xp: 0
+                    }
+                case 'change_class':
+                    return {
+                        class: action.nextClass,
+                        level: 1,
+                        xp: 0,
+                    }
+                default:
+                    return state;
+            }
+        }
+
+        function CounterReducer() {
+
+            const [state, dispatch] = React.useReducer(reducer, { class: 'warrior', level: 1, xp: 0 });
+            const [error, setError] = React.useState(null);
+
+            function handleIncrementXP() {
+                dispatch({
+                    type: 'increment_xp',
+                    increment: 10
+                });
+            }
+
+            function handleLevelUp() {
+                if (state.xp >= 100) {
+                    dispatch({
+                        type: 'level_up'
+                    });
+                }
+            }
+
+            function handleChangeClass(e) {
+                dispatch({
+                    type: 'change_class',
+                    nextClass: e.target.value
+                });
+            }
+            return (
+                <div className="bg-slate-800 text-white">
+                    <h1>Class: {state.class}</h1>
+                    <h2>Level: {state.level}</h2>
+                    <h3>XP: {state.xp}</h3>
+                    <button onClick={handleIncrementXP}>Increment XP</button>
+                    <button onClick={handleLevelUp}>Level Up</button>
+                    <select value={state.class} onChange={handleChangeClass}>
+                        <option value="warrior">Warrior</option>
+                        <option value="mage">Mage</option>
+                        <option value="rogue">Rogue</option>
+                    </select>
+                    {error && <p className="text-red-500">{error}</p>}
+                </div>
+            );
+        }
+
+
+        function App() {
+            return (
+                <div className="bg-gray-200 text-black">
+                    <CounterReducer />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
+
 </html>
