@@ -19,7 +19,7 @@ function reducer(state, action) {
         class: action.nextClass,
         level: 1,
         xp: 0,
-      }""
+      }
     default:
       return state;
   }

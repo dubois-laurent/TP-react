@@ -20,14 +20,11 @@
             switch (action.type) {
                 case 'increment_xp':
                     return {
-                        class: state.class,
-                        level: state.level,
-                        xp: state.xp + action.increment
+                        ...state, xp: state.xp + action.increment
                     }
                 case 'level_up':
                     return {
-                        class: state.class,
-                        level: state.level + 1,
+                        ...state, level: state.level + 1,
                         xp: 0
                     }
                 case 'change_class':
