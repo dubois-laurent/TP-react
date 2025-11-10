@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      function Hello() {
+        return <h2>Hello World Component</h2>;
+      }
+
+      function ProductCard() {
+        return (
+          <div className="product-card">
+            <img
+              src="https://via.placeholder.com/150"
+              alt="Product Image"
+            />
+            <h3>Product Name</h3>
+            <p>$19.99</p>
+          </div>
+        );
+      }
+
+      const students = [ 
+        { name: "Alice", grade: 15 },
+        { name: "Bob", grade: 22 },
+        { name: "Charlie", grade: 19 },
+        { name: "Diana", grade: 25 }
+      ];
+
+      function AverageGrade() {
+        const total = students.reduce((sum, student) => sum + student.grade, 0);
+        const average = total / students.length;
+        return (
+          <div>
+            <p>Moyenne des étudiants: {average}</p>
+          </div>
+        );
+      }
+
+
+      function App() {
+        return (
+          <div>
+            <Hello />
+            <ProductCard />
+            <p>Liste des étudiants :</p>
+            <ul>
+              {students.map((student, index) => (
+                <li key={index}>{student.name} - {student.grade}</li>
+              ))}
+            </ul>
+            <AverageGrade />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

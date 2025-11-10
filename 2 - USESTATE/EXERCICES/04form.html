@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <style>
+      .Login {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        margin-bottom: 20px;
+        gap: 10px;
+      }
+
+      .Todo {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      function LoginForm() {
+        const [email, setEmail] = React.useState("");
+        const [password, setPassword] = React.useState("");
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          const { name, value } = e.target;
+          console.log("Submitted email:", email);
+          console.log("Submitted password:", password);
+          setEmail("");
+          setPassword("");
+        };
+
+        return (
+          <div>
+            <form onSubmit={handleSubmit} className="Login">
+              <label>Email : </label>
+                <input
+                type="text"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label>Password : </label>
+                <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+              <input type="submit" value="Login" />
+            </form>
+            </div>
+        );
+      }
+
+    function TodoList() {
+        const [todo, setTodo] = React.useState([]);
+        const [tasks, setTasks] = React.useState("");
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+         // setTasks([...tasks, todo]); Créer une nouvelle référence du même objet, 
+         // pas bon pour React car pas optimisé et ça fait un re-render.
+
+          todo.push(tasks);
+          setTodo(todo);
+          setTasks("");
+        };
+        const handleReset = (e) => {
+          setTodo([]);
+        };
+
+        const handleDelete = (index) => {
+          const newTodos = todo.filter((_, idx) => idx !== index);
+          setTodo(newTodos);
+        };
+
+        return (
+          <div>
+                <form onSubmit={handleSubmit} className="Todo">
+                    <input
+                    type="text"
+                    placeholder="Enter a task"
+                    value={tasks}
+                    onChange={(e) => setTasks(e.target.value)}
+                    />
+                    <input type="submit" value="Add Task" />
+                    <input type="button" value="Reset" onClick={handleReset} />
+                </form>
+                <ul>
+                    {todo.map((item, index) => (
+                    <li key={index}>{index + 1} - {item}
+                      <button onClick={() =>handleDelete(index)}>Delete</button>
+                    </li>
+                    ))}
+                </ul>
+            </div>
+         )
+        }
+
+        function CountTimer() {
+          const [count, setCount] = React.useState(0);
+
+          setTimeout( () => {
+            setCount(count => count + 1)
+          }, 1000)
+
+          return (
+            <div>
+              <h2>Counter : {count}</h2>
+              </div>
+          )
+        }
+
+
+        function App() {
+            return (
+            <div>
+                <h2>Login Form Example</h2>
+                <LoginForm />
+                <h2> Todo List Example</h2>
+                <TodoList />
+                <CountTimer />
+            </div>
+            );
+        }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
