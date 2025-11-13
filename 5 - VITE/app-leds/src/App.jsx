@@ -1,7 +1,6 @@
-import { useReducer } from 'react'
+import { useReducer, useState, useEffect } from 'react'
 import LedPanel from './components/LedPanel'
 import BlueLedPanel from './components/BonusBlueLed'
-import { use } from 'react'
 
 
 const initialState = { initialColor: "red", previous: "", next: "", activeColor: "" , statusCounter: 0 }
@@ -68,9 +67,9 @@ function App() {
           </button>
           <button
             className="px-6 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors duration-200 font-medium"
-            onClick={() => dispatch({ type: 'statusCounter' })}
+            onClick={() => setStatusCounter(!statusCounter)}
           >
-            STATUS COUNTER ({state.statusCounter})
+            STATUS COUNTER ({statusCounter ? state.statusCounter : 0})
           </button>
         </div>
       </div>
