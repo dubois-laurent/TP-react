@@ -1,38 +1,18 @@
 
 import { useCartStore } from "../stores/useCartStore";
-import { CartCard } from "./CartCard";
+import { ProductCard } from "./ProductCard";
 
 function ProductList() {
 
-  const { cart, priceTotal } = useCartStore((s) => s);
-
-  const base =
-    "inline-flex items-center justify-center rounded-md font-medium transition focus:outline-none disabled:opacity-60 disabled:pointer-events-none";
-
-  const variants = {
-    primary: "bg-indigo-600 hover:bg-indigo-500 text-white",
-    secondary: "bg-neutral-800 hover:bg-neutral-700 text-neutral-100",
-    outline: "border border-neutral-700 text-neutral-100 hover:bg-neutral-800",
-    ghost: "text-neutral-300 hover:bg-neutral-800",
-  };
-
-  const sizes = {
-    sm: "px-2 py-1 text-sm",
-    md: "px-3 py-2 text-sm",
-    lg: "px-4 py-3 text-base",
-  };
+  const { products } = useCartStore((s) => s);
 
   return (
-    <>
-      <main className="min-h-screen w-full bg-neutral-900 text-neutral-200 flex items-start justify-center p-10">
-        <h1 className="p-2 text-2xl font-bold">Vos produits</h1>
-        <div className="flex gap-3 flex-wrap">
-          {cart.map((value, index) => <CartCard key={index} value={value} /> )}
-          <p>Total items in cart: {cart.length}</p>
-          <p>Total price: {priceTotal}€</p>
-        </div>
-      </main>
-    </>
+    <div className="bg-white/5 backdrop-blur rounded-2xl p-6">
+      <h2 className="text-2xl font-bold mb-6 text-white">📦 Produits disponibles</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {products.map((value) => <ProductCard key={value.id} value={value} /> )}
+      </div>
+    </div>
   );
 }
 
